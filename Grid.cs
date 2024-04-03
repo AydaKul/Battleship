@@ -15,9 +15,32 @@ public class Grid {
         }
     }
 
-        public bool PlaceShip(Ship ship, int x, int y, int orientation) {
-            return false; // Placeholder until I add this code
+    public bool PlaceShip(Ship ship, int x, int y, int orientation) {
+        if (orientation == 0 && x + ship.Length > size || orientation == 1 && y + ship.Length > size) {
+            return false; //OUT OF BOUDS
         }
+  
+        for (int i = 0; i < ship.Length; i++) {
+            if (orientation == 0 && IsCellOccupied(x + i, y) || orientation == 1 && IsCellOccupied(x, y + i)) {
+                return false; // aLREADY OCCUPIED
+            }
+        }
+  
+      if (orientation == 0) {
+            for (int i = 0; i < ship.Length; i++) {
+                cells[x + i, y].SetShip(ship);
+            }
+        } 
+      
+      else {
+            for (int i = 0; i < ship.Length; i++) {
+                cells[x, y + i].SetShip(ship);
+            }
+        }
+  
+        return true;
+    }
+
 
     public bool IsCellOccupied(int x, int y) {
         return cells[x, y].IsOccupied();
